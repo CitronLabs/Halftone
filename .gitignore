@@ -1,0 +1,15 @@
+#Im-GUI artifacts
+imgui.ini
+imgui*.ini
+
+.clangd
+
+
+# SCons build signature databases
+.sconsign.dblite
+.sconsign/
+*.sconsign
+
+# SCons configuration and temporary build logs
+config.log
+.sconf_temp/
