@@ -97,7 +97,12 @@ class BuildConfig:
     LINK_FLAGS = {
         # -static bakes libc++/libunwind into Halftone.exe so only SDL3.dll and
         # the system vulkan-1.dll are needed at runtime.
-        "windows": ["--target=x86_64-w64-mingw32", "-fexperimental-library", "-static"],
+        "windows": ["--target=x86_64-w64-mingw32", "-fexperimental-library", "-static",
+                    # GCC's libstdc++ (MSYS2 / MinGW toolchains) needs winpthread
+                    # (pthread_*, clock_gettime) when linked statically. Whole-archive
+                    # makes it resolve no matter where the driver puts libstdc++,
+                    # with GNU ld or lld; it is harmless with llvm-mingw's libc++.
+                    "-Wl,--whole-archive", "-lwinpthread", "-Wl,--no-whole-archive"],
         "linux":   ["-Wl,-rpath,$ORIGIN"],
         "macos":   ["-Wl,-rpath,@executable_path"],
     }
