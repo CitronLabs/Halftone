@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+"""
+Standalone build without SCons (fallback / CI sanity check).
+
+    python build/do_build_modules            build everything that is out of date
+    python build/do_build_modules --force    rebuild everything
+
+Uses the same graph as SConstruct. Staleness is a simple timestamp check
+(source or any imported .pcm newer than the output); header changes are NOT
+tracked here, so use --force or SCons after editing vendor headers.
+"""
+import os
+import shutil
+import subprocess
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from config import BuildConfig
+import modules
+
+
+def _mtime(path):
+    full = os.path.join(BuildConfig.PROJECT_DIR, path)
+    return os.path.getmtime(full) if os.path.exists(full) else -1.0
+
+
+def _run(target, args):
+    os.makedirs(os.path.join(BuildConfig.PROJECT_DIR, os.path.dirname(target)), exist_ok=True)
+    print(f"[BUILD] {target}")
+    result = subprocess.run(args, cwd=BuildConfig.PROJECT_DIR, text=True, capture_output=True)
+    if result.stderr:
+        print(result.stderr, file=sys.stderr, end="")
+    if result.returncode != 0:
+        print(f"\n[ERROR] Failed building: {target}", file=sys.stderr)
+        sys.exit(result.returncode)
+
+
+def execute_build(force=False):
+    units = modules.build_graph()
+    print(f"[BUILD] {len(units)} translation units, variant={BuildConfig.VARIANT}, platform={BuildConfig.PLATFORM}")
+
+    rebuilt = set()
+    for unit in units:
+        dep_pcms = [d.pcm for d in getattr(unit, "deps", [])]
+        for target, args in modules.commands(unit, units):
+            inputs = [unit.src] + dep_pcms + ([unit.pcm] if target == unit.obj and unit.pcm else [])
+            stale  = force or _mtime(target) < max(_mtime(i) for i in inputs) or any(i in rebuilt for i in inputs)
+            if stale:
+                _run(target, args)
+                rebuilt.add(target)
+
+    exe, link_args = modules.link_command(units)
+    if force or rebuilt or _mtime(exe) < 0:
+        modules.write_link_response_file(units)
+        _run(exe, link_args)
+
+    for f in BuildConfig.RUNTIME_FILES.get(BuildConfig.PLATFORM, []):
+        src = f if os.path.isabs(f) else os.path.join(BuildConfig.PROJECT_DIR, f)
+        if os.path.exists(src):
+            shutil.copy2(src, os.path.join(BuildConfig.PROJECT_DIR, os.path.dirname(exe), os.path.basename(f)))
+
+    print(f"[SUCCESS] {exe}")
+
+
+if __name__ == "__main__":
+    try:
+        execute_build(force="--force" in sys.argv)
+    except modules.BuildError as e:
+        print(f"[ERROR] {e}", file=sys.stderr)
+        sys.exit(1)

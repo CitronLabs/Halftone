@@ -3,7 +3,7 @@ imgui.ini
 imgui*.ini
 
 .clangd
-
+.cache/
 
 # SCons build signature databases
 .sconsign.dblite
@@ -13,3 +13,15 @@ imgui*.ini
 # SCons configuration and temporary build logs
 config.log
 .sconf_temp/
+
+# Python
+__pycache__/
+
+# Build outputs (prebuilt vendor binaries in build/modules/<Lib>.module stay tracked)
+build/bin/
+build/modules/Halftone.module/
+build/modules/ImGui.module/
+*.pcm
+*.o
+run.phony
+*.rsp

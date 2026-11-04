@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+"""Writes compile_commands.json (for clangd) from the same graph SCons builds."""
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from config import BuildConfig
+import modules
+
+
+def generate_database():
+    units = modules.build_graph()
+    compile_commands = []
+
+    for unit in units:
+        # For interfaces the first step (cppm -> pcm) is the one clangd needs.
+        target, args = modules.commands(unit, units)[0]
+        compile_commands.append({
+            "directory": BuildConfig.PROJECT_DIR,
+            "file":      unit.src.replace(os.sep, "/"),
+            "arguments": args,
+            "output":    target,
+        })
+
+    output_path = os.path.join(BuildConfig.PROJECT_DIR, "compile_commands.json")
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(compile_commands, f, indent=2)
+    print(f"[INFO] Synced {output_path} with {len(compile_commands)} entries.")
+
+
+if __name__ == "__main__":
+    try:
+        generate_database()
+    except modules.BuildError as e:
+        print(f"[ERROR] {e}", file=sys.stderr)
+        sys.exit(1)
