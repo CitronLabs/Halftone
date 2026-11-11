@@ -19,11 +19,11 @@ SceneLayoutMode::SceneLayoutMode()
     AddPanel<TimelinePanel>();
 }
 
-bool SceneLayoutMode::Accepts(EditorContext& ctx, ID /*focus*/) const { return ctx.Document() != nullptr; }
+bool SceneLayoutMode::Accepts(Context& ctx, ID /*focus*/) const { return ctx.Document() != nullptr; }
 
-void SceneLayoutMode::OnEnter(EditorContext& /*ctx*/) {}
+void SceneLayoutMode::OnEnter(Context& /*ctx*/) {}
 
-void SceneLayoutMode::DrawMenus(EditorContext& ctx)
+void SceneLayoutMode::DrawMenus(Context& ctx)
 {
     if (ImGui::BeginMenu("Add")) {
         AddNodeMenuItems(ctx);

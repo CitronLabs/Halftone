@@ -16,7 +16,7 @@ using namespace Halftone::Editor;
 using namespace Halftone::Core;
 namespace Proj = Halftone::Project;
 
-Shell::Shell(EditorContext& ctx)
+Shell::Shell(Context& ctx)
     : _Ctx(ctx),
       _Splash(MakeUnique<SplashScreen>()),
       _Browser(MakeUnique<ProjectBrowserScreen>()),

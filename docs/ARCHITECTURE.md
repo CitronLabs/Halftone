@@ -125,7 +125,7 @@ work out the dependency order.
 SDL::PumpEvents ─▶ Renderer::BeginFrame (apply viewport resize)
    ─▶ ImGUI::NewFrame ─▶ Shell::Frame
           ├─ Timeline::Update (scene editor only)
-          ├─ current Screen Update + Draw  (panels edit EditorContext, request navigation)
+          ├─ current Screen Update + Draw  (panels edit Context, request navigation)
           └─ apply Navigation  (open/close/save scene, enter mode)   ← never mid-draw
    ─▶ ImGUI::EndFrame
    ─▶ Vulkan::BeginFrame
@@ -134,7 +134,7 @@ SDL::PumpEvents ─▶ Renderer::BeginFrame (apply viewport resize)
    ─▶ Vulkan::EndFrame (submit + present)
 ```
 
-* The Viewport panel fills in `EditorContext::View`, a `Graphics::RenderView`
+* The Viewport panel fills in `Context::View`, a `Graphics::RenderView`
   made of a `ViewKind` (Scene, CanvasFlat, CanvasDepth or ModelFocus), the
   focus node, and the editor's `ViewCamera`. Each mode keeps its own
   `ViewNavigator`, so returning to Scene mode restores the view you had.

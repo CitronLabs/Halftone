@@ -10,7 +10,7 @@ import com.citronlabs.Halftone.Core;
 using namespace Halftone::Editor;
 using namespace Halftone::Core;
 
-void Workspace::Draw(EditorContext& ctx, List<Unique<Panel>>& panels, f32 top)
+void Workspace::Draw(Context& ctx, List<Unique<Panel>>& panels, f32 top)
 {
     const ImGuiViewport* vp = ImGui::GetMainViewport();
     const ImVec2 origin = { vp->Pos.x, vp->Pos.y + top };

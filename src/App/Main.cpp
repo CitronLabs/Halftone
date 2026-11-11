@@ -41,7 +41,7 @@ namespace
     // Register interactive drawing tools (one per Drawing::DrawingMode).
     // None exist yet - this is where the brush engine plugs in, e.g.
     //   ctx.DrawingTools.push_back(MakeUnique<Brushes::RasterBrushTool>());
-    void RegisterDrawingTools(Editor::EditorContext& /*ctx*/) {}
+    void RegisterDrawingTools(Editor::Context& /*ctx*/) {}
 
     // Optional: HALFTONE_MAX_FRAMES=<n> quits after n frames (smoke tests / CI).
     u64 MaxFramesFromEnv()
@@ -54,6 +54,7 @@ namespace
 int main(int argc, char* argv[])
 {
     (void)argc; (void)argv;
+
     Log::Info("App", "{} {} starting", App::Info::Name, App::Info::Version);
 
     auto& sdl    = Bindings::SDL::GetBinding();

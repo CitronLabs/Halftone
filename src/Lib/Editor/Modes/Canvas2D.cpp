@@ -23,13 +23,13 @@ Canvas2DMode::Canvas2DMode()
     AddPanel<TimelinePanel>();
 }
 
-bool Canvas2DMode::Accepts(EditorContext& ctx, ID focus) const
+bool Canvas2DMode::Accepts(Context& ctx, ID focus) const
 {
     auto* doc = ctx.Document();
     return doc and doc->FindAs<Halftone::Scene::Canvas>(focus);
 }
 
-void Canvas2DMode::OnEnter(EditorContext& ctx)
+void Canvas2DMode::OnEnter(Context& ctx)
 {
     if (auto* canvas = ctx.FocusedCanvas()) {
         ctx.Navigator().FrameCanvas(canvas->Document.Size);
@@ -38,7 +38,7 @@ void Canvas2DMode::OnEnter(EditorContext& ctx)
     }
 }
 
-void Canvas2DMode::DrawMenus(EditorContext& ctx)
+void Canvas2DMode::DrawMenus(Context& ctx)
 {
     auto* canvas = ctx.FocusedCanvas();
     if (not canvas) return;

@@ -20,13 +20,13 @@ Canvas3DMode::Canvas3DMode()
     AddPanel<TimelinePanel>();
 }
 
-bool Canvas3DMode::Accepts(EditorContext& ctx, ID focus) const
+bool Canvas3DMode::Accepts(Context& ctx, ID focus) const
 {
     auto* doc = ctx.Document();
     return doc and doc->FindAs<Halftone::Scene::Canvas>(focus);
 }
 
-void Canvas3DMode::OnEnter(EditorContext& ctx)
+void Canvas3DMode::OnEnter(Context& ctx)
 {
     // Orbit around the middle of the page, far enough to see the whole stack.
     if (auto* canvas = ctx.FocusedCanvas()) {
@@ -38,7 +38,7 @@ void Canvas3DMode::OnEnter(EditorContext& ctx)
     }
 }
 
-void Canvas3DMode::DrawMenus(EditorContext& ctx)
+void Canvas3DMode::DrawMenus(Context& ctx)
 {
     if (ImGui::BeginMenu("Canvas")) {
         if (ImGui::MenuItem("Switch to 2D View")) ctx.RequestMode(EditorModeKind::Canvas2D, ctx.Focus);

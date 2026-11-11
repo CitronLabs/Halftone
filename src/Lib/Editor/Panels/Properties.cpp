@@ -18,7 +18,7 @@ int PropertiesPanel::WindowFlags() const { return 0; }
 
 namespace
 {
-    bool DrawNodeSpecific(EditorContext& ctx, SceneNS::Node& node)
+    bool DrawNodeSpecific(Context& ctx, SceneNS::Node& node)
     {
         bool c = false;
         switch (node.Kind())
@@ -75,7 +75,7 @@ namespace
     }
 }
 
-void PropertiesPanel::Draw(EditorContext& ctx)
+void PropertiesPanel::Draw(Context& ctx)
 {
     auto* doc  = ctx.Document();
     auto* node = doc ? doc->Find(ctx.Selection) : nullptr;

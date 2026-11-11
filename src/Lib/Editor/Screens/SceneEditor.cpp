@@ -25,7 +25,7 @@ SceneEditorScreen::SceneEditorScreen()
 
 SceneEditorScreen::~SceneEditorScreen() = default;
 
-void SceneEditorScreen::Draw(EditorContext& ctx)
+void SceneEditorScreen::Draw(Context& ctx)
 {
     if (not ctx.Open) return;
     EditorMode& mode = ModeFor(ctx.Mode);
@@ -43,7 +43,7 @@ void SceneEditorScreen::Draw(EditorContext& ctx)
     DrawCloseConfirmation(ctx);
 }
 
-void SceneEditorScreen::DrawMainMenu(EditorContext& ctx, EditorMode& mode)
+void SceneEditorScreen::DrawMainMenu(Context& ctx, EditorMode& mode)
 {
     if (not ImGui::BeginMainMenuBar()) return;
 
@@ -88,7 +88,7 @@ void SceneEditorScreen::DrawMainMenu(EditorContext& ctx, EditorMode& mode)
 
 // Breadcrumb + mode switcher under the menu bar:
 //   Project / Sub / Scene  >  Canvas "Hero"      [Scene] [Canvas 2D] [Canvas 3D] [Model]
-f32 SceneEditorScreen::DrawModeBar(EditorContext& ctx, f32 top)
+f32 SceneEditorScreen::DrawModeBar(Context& ctx, f32 top)
 {
     const ImGuiViewport* vp = ImGui::GetMainViewport();
     const f32 height = ImGui::GetFrameHeight() + 12.0f;
@@ -141,7 +141,7 @@ f32 SceneEditorScreen::DrawModeBar(EditorContext& ctx, f32 top)
     return top + height;
 }
 
-void SceneEditorScreen::DrawSceneSettings(EditorContext& ctx)
+void SceneEditorScreen::DrawSceneSettings(Context& ctx)
 {
     if (not ctx.Open->Item) { _ShowSceneSettings = false; return; }
     ImGui::SetNextWindowSize({ 560, 520 }, ImGuiCond_FirstUseEver);
@@ -155,7 +155,7 @@ void SceneEditorScreen::DrawSceneSettings(EditorContext& ctx)
     ImGui::End();
 }
 
-void SceneEditorScreen::DrawCloseConfirmation(EditorContext& ctx)
+void SceneEditorScreen::DrawCloseConfirmation(Context& ctx)
 {
     if (_ConfirmClose) { ImGui::OpenPopup("Close Scene?"); _ConfirmClose = false; }
     if (ImGui::BeginPopupModal("Close Scene?", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {

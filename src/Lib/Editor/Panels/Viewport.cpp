@@ -123,7 +123,7 @@ namespace
         for (auto& edge : e) Line3(dl, P, v[edge[0]], v[edge[1]], col, thickness);
     }
 
-    void DrawSceneOverlay(EditorContext& ctx, ImDrawList* dl, const Projector& P, ImVec2 origin, ImVec2 size)
+    void DrawSceneOverlay(Context& ctx, ImDrawList* dl, const Projector& P, ImVec2 origin, ImVec2 size)
     {
         auto& doc = *ctx.Document();
         DrawGrid(dl, P, 10);
@@ -191,7 +191,7 @@ namespace
         }
     }
 
-    void DrawCanvasDepthOverlay(EditorContext& ctx, ImDrawList* dl, const Projector& P)
+    void DrawCanvasDepthOverlay(Context& ctx, ImDrawList* dl, const Projector& P)
     {
         auto* canvas = ctx.FocusedCanvas();
         if (not canvas) return;
@@ -213,7 +213,7 @@ namespace
         }
     }
 
-    void DrawModelOverlay(EditorContext& ctx, ImDrawList* dl, const Projector& P, ImVec2 origin, ImVec2 size)
+    void DrawModelOverlay(Context& ctx, ImDrawList* dl, const Projector& P, ImVec2 origin, ImVec2 size)
     {
         auto* model = ctx.FocusedModel();
         if (not model) return;
@@ -228,7 +228,7 @@ namespace
         }
     }
 
-    void DrawCanvasFlatOverlay(EditorContext& ctx, ImDrawList* dl, ImVec2 origin, ImVec2 size, bool hovered)
+    void DrawCanvasFlatOverlay(Context& ctx, ImDrawList* dl, ImVec2 origin, ImVec2 size, bool hovered)
     {
         auto* canvas = ctx.FocusedCanvas();
         if (not canvas) return;
@@ -251,7 +251,7 @@ namespace
     }
 
     // Converts viewport input into Drawing::PointerEvents for the active tool.
-    void ForwardToTool(EditorContext& ctx, ImVec2 origin, ImVec2 size)
+    void ForwardToTool(Context& ctx, ImVec2 origin, ImVec2 size)
     {
         auto* canvas = ctx.FocusedCanvas();
         if (not canvas) return;
@@ -282,7 +282,7 @@ int ViewportPanel::WindowFlags() const
     return ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
 }
 
-void ViewportPanel::Draw(EditorContext& ctx)
+void ViewportPanel::Draw(Context& ctx)
 {
     if (not ctx.Document()) return;
 

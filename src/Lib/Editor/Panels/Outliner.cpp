@@ -15,7 +15,7 @@ namespace SceneNS = Halftone::Scene;
 
 int OutlinerPanel::WindowFlags() const { return 0; }
 
-void OutlinerPanel::Draw(EditorContext& ctx)
+void OutlinerPanel::Draw(Context& ctx)
 {
     auto* doc = ctx.Document();
     if (not doc) return;

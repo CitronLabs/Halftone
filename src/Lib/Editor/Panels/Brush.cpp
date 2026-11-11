@@ -15,7 +15,7 @@ namespace Draw = Halftone::Drawing;
 
 int BrushPanel::WindowFlags() const { return 0; }
 
-void BrushPanel::Draw(EditorContext& ctx)
+void BrushPanel::Draw(Context& ctx)
 {
     auto& brush = ctx.Brush;
 

@@ -16,7 +16,7 @@ namespace Draw = Halftone::Drawing;
 
 int LayersPanel::WindowFlags() const { return 0; }
 
-void LayersPanel::Draw(EditorContext& ctx)
+void LayersPanel::Draw(Context& ctx)
 {
     auto* canvas = ctx.FocusedCanvas();
     if (not canvas) { ImGui::TextDisabled("No canvas focused"); return; }

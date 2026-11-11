@@ -30,7 +30,7 @@ namespace
     }
 }
 
-void ProjectBrowserScreen::OnEnter(EditorContext& ctx)
+void ProjectBrowserScreen::OnEnter(Context& ctx)
 {
     ctx.Library.Rescan();
     _Selected = _SelectPath.empty() ? nullptr : ctx.Library.FindByPath(_SelectPath);
@@ -53,7 +53,7 @@ void ProjectBrowserScreen::BeginCreate(NewKind kind, Proj::ProjectItem* parent)
     _OpenNewPopup = true;
 }
 
-void ProjectBrowserScreen::Draw(EditorContext& ctx)
+void ProjectBrowserScreen::Draw(Context& ctx)
 {
     const ImGuiViewport* vp = ImGui::GetMainViewport();
     const ImGuiWindowFlags fixed = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse
@@ -84,7 +84,7 @@ void ProjectBrowserScreen::Draw(EditorContext& ctx)
     DrawNewItemPopup(ctx);
 }
 
-void ProjectBrowserScreen::DrawToolbar(EditorContext& ctx)
+void ProjectBrowserScreen::DrawToolbar(Context& ctx)
 {
     ImGui::AlignTextToFramePadding();
     ImGui::Text("%s", Halftone::App::Info::Name);
@@ -100,13 +100,13 @@ void ProjectBrowserScreen::DrawToolbar(EditorContext& ctx)
     if (ImGui::Button("Quit")) ctx.QuitRequested = true;
 }
 
-void ProjectBrowserScreen::DrawTree(EditorContext& ctx)
+void ProjectBrowserScreen::DrawTree(Context& ctx)
 {
     for (auto& project : ctx.Library.Projects()) DrawTreeItem(ctx, *project);
     if (ctx.Library.Projects().empty()) ImGui::TextDisabled("No projects yet.");
 }
 
-void ProjectBrowserScreen::DrawTreeItem(EditorContext& ctx, Proj::ProjectItem& item)
+void ProjectBrowserScreen::DrawTreeItem(Context& ctx, Proj::ProjectItem& item)
 {
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick
                              | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen;
@@ -138,7 +138,7 @@ void ProjectBrowserScreen::DrawTreeItem(EditorContext& ctx, Proj::ProjectItem& i
     }
 }
 
-void ProjectBrowserScreen::DrawInspector(EditorContext& ctx)
+void ProjectBrowserScreen::DrawInspector(Context& ctx)
 {
     auto& item = *_Selected;
 
@@ -181,7 +181,7 @@ void ProjectBrowserScreen::DrawInspector(EditorContext& ctx)
     _Modified |= DrawResourceEditor(item);
 }
 
-void ProjectBrowserScreen::DrawEmptyState(EditorContext& /*ctx*/)
+void ProjectBrowserScreen::DrawEmptyState(Context& /*ctx*/)
 {
     ImGui::Dummy({ 0, 40 });
     ImGui::TextUnformatted("Your project library is empty.");
@@ -191,7 +191,7 @@ void ProjectBrowserScreen::DrawEmptyState(EditorContext& /*ctx*/)
     if (ImGui::Button("Create your first project", { 240, 34 })) BeginCreate(NewKind::Project, nullptr);
 }
 
-void ProjectBrowserScreen::DrawNewItemPopup(EditorContext& ctx)
+void ProjectBrowserScreen::DrawNewItemPopup(Context& ctx)
 {
     const char* titles[] = { "", "New Project", "New Subproject", "New Scene" };
     if (_OpenNewPopup) { ImGui::OpenPopup("Create###create"); _OpenNewPopup = false; }

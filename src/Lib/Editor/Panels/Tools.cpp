@@ -26,7 +26,7 @@ namespace
     }
 }
 
-void ToolsPanel::Draw(EditorContext& ctx)
+void ToolsPanel::Draw(Context& ctx)
 {
     const f32 w = ImGui::GetContentRegionAvail().x;
 

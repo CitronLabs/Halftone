@@ -110,21 +110,21 @@ void ViewNavigator::FrameCanvas(Vec2 pageSize)
     PageHeight = std::max(pageSize.y, pageSize.x * 0.6f) * 1.15f;
 }
 
-// --- EditorContext ----------------------------------------------------------------
+// --- Context ----------------------------------------------------------------
 
-SceneNS::Canvas* EditorContext::FocusedCanvas()
+SceneNS::Canvas* Context::FocusedCanvas()
 {
     auto* doc = Document();
     return doc ? doc->FindAs<SceneNS::Canvas>(Focus) : nullptr;
 }
 
-SceneNS::Model* EditorContext::FocusedModel()
+SceneNS::Model* Context::FocusedModel()
 {
     auto* doc = Document();
     return doc ? doc->FindAs<SceneNS::Model>(Focus) : nullptr;
 }
 
-Halftone::Drawing::Tool* EditorContext::ToolFor(Halftone::Drawing::DrawingMode mode)
+Halftone::Drawing::Tool* Context::ToolFor(Halftone::Drawing::DrawingMode mode)
 {
     for (auto& tool : DrawingTools) if (tool->Mode() == mode) return tool.get();
     return nullptr;
@@ -132,18 +132,18 @@ Halftone::Drawing::Tool* EditorContext::ToolFor(Halftone::Drawing::DrawingMode m
 
 // --- Shared UI helpers ----------------------------------------------------------
 
-void Halftone::Editor::ApplySceneDefaults(EditorContext& ctx, Halftone::Drawing::CanvasDocument& doc)
+void Halftone::Editor::ApplySceneDefaults(Context& ctx, Halftone::Drawing::CanvasDocument& doc)
 {
     if (not ctx.Open) return;
     for (auto& layer : doc.Layers()) layer.Exposures.GetCadence().Step = ctx.Open->DefaultCadence;
 }
 
-void Halftone::Editor::ApplySceneDefaults(EditorContext& ctx, Halftone::Drawing::Layer& layer)
+void Halftone::Editor::ApplySceneDefaults(Context& ctx, Halftone::Drawing::Layer& layer)
 {
     if (ctx.Open) layer.Exposures.GetCadence().Step = ctx.Open->DefaultCadence;
 }
 
-void Halftone::Editor::AddNodeMenuItems(EditorContext& ctx)
+void Halftone::Editor::AddNodeMenuItems(Context& ctx)
 {
     auto* doc = ctx.Document();
     if (not doc) return;

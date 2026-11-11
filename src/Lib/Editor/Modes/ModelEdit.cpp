@@ -20,13 +20,13 @@ ModelEditMode::ModelEditMode()
     AddPanel<PropertiesPanel>();
 }
 
-bool ModelEditMode::Accepts(EditorContext& ctx, ID focus) const
+bool ModelEditMode::Accepts(Context& ctx, ID focus) const
 {
     auto* doc = ctx.Document();
     return doc and doc->FindAs<Halftone::Scene::Model>(focus);
 }
 
-void ModelEditMode::OnEnter(EditorContext& ctx)
+void ModelEditMode::OnEnter(Context& ctx)
 {
     if (auto* model = ctx.FocusedModel()) {
         auto& nav = ctx.Navigator();
@@ -36,7 +36,7 @@ void ModelEditMode::OnEnter(EditorContext& ctx)
     }
 }
 
-void ModelEditMode::DrawMenus(EditorContext& ctx)
+void ModelEditMode::DrawMenus(Context& ctx)
 {
     if (ImGui::BeginMenu("Model")) {
         if (ImGui::MenuItem("Texture Paint Tool")) ctx.ActiveModelTool = ModelTool::TexturePaint;

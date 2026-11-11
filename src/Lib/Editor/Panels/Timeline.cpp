@@ -22,7 +22,7 @@ namespace
 {
     // Exposure strip for one layer: one cell per frame, solid where a new
     // drawing starts, pale where the previous drawing is held.
-    void DrawExposureStrip(EditorContext& ctx, Draw::Layer& layer)
+    void DrawExposureStrip(Context& ctx, Draw::Layer& layer)
     {
         auto& timeline = ctx.Timeline;
         const auto range = timeline.Range();
@@ -67,7 +67,7 @@ namespace
     }
 }
 
-void TimelinePanel::Draw(EditorContext& ctx)
+void TimelinePanel::Draw(Context& ctx)
 {
     auto& timeline = ctx.Timeline;
 

@@ -30,8 +30,10 @@ from SCons.Scanner.C import CScanner
 cfg = config.BuildConfig
 
 env = Environment(
-    ENV     = os.environ.copy(),
-    CPPPATH = [os.path.join(cfg.PROJECT_DIR, d) for d in cfg.INCLUDE_DIRS],  # used by the header scanner only
+    LINKCOMSTR   = "[LINK] Linking $SOURCES ==> $TARGET",
+    CCCOMSTR = "[COMPILE] Compiling $SOURCES ==> $TARGET",
+    ENV      = os.environ.copy(),
+    CPPPATH  = [os.path.join(cfg.PROJECT_DIR, d) for d in cfg.INCLUDE_DIRS],  # used by the header scanner only
 )
 
 try:

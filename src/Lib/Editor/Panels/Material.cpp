@@ -17,7 +17,7 @@ namespace SceneNS = Halftone::Scene;
 
 int MaterialPanel::WindowFlags() const { return 0; }
 
-void MaterialPanel::Draw(EditorContext& ctx)
+void MaterialPanel::Draw(Context& ctx)
 {
     auto* model = ctx.FocusedModel();
     if (not model) { ImGui::TextDisabled("No model focused"); return; }

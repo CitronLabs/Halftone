@@ -15,7 +15,7 @@ import com.citronlabs.Halftone.App;
 using namespace Halftone::Editor;
 using namespace Halftone::Core;
 
-void SplashScreen::Update(EditorContext& /*ctx*/, f64 dt)
+void SplashScreen::Update(Context& /*ctx*/, f64 dt)
 {
     _Elapsed += dt;
     if (_Failed or _Next >= _Steps.size()) return;
@@ -32,7 +32,7 @@ void SplashScreen::Update(EditorContext& /*ctx*/, f64 dt)
     _Next++;
 }
 
-void SplashScreen::Draw(EditorContext& ctx)
+void SplashScreen::Draw(Context& ctx)
 {
     const ImGuiViewport* vp = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(vp->Pos);
